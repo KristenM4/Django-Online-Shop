@@ -14,4 +14,4 @@ class CustomerAddress(models.Model):
 
 class Customer(AbstractUser):
     postal_address = models.OneToOneField(CustomerAddress, null=True, on_delete=models.SET_NULL)
-    date_of_birth = models.DateField()
+    date_of_birth = models.DateField(null=True)

@@ -15,9 +15,11 @@ class Product(models.Model):
     stock_quantity = models.IntegerField()
     discount = models.DecimalField(decimal_places=2, max_digits=2)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    slug = models.CharField(max_length=255, default="", unique=True, db_index=True)
 
 
 class Order(models.Model):
     date = models.DateField(auto_now_add=True)
     customer = models.OneToOneField(Customer, on_delete=models.CASCADE)
-    product = models.ManyToManyField(Product,)
+    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    quantity = models.PositiveIntegerField(default=1)
