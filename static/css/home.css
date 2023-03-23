@@ -4,3 +4,13 @@
     background-size: cover;
     background-position: center;
 }
+
+.mb-5 a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.h-100:hover {
+    transform: scale(1.05);
+    border: 0px;
+}
