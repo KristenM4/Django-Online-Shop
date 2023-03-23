@@ -9,8 +9,8 @@ class CustomerAdmin(UserAdmin):
     add_form = CustomerCreationForm
     form = CustomerChangeForm
     model = Customer
-    list_display = ["email", "username", "date_of_birth", "postal_address", "is_staff",]
-    fieldsets = UserAdmin.fieldsets + ((None, {"fields": ("date_of_birth", "postal_address",)}),)
-    add_fieldsets = UserAdmin.add_fieldsets + ((None, {"fields": ("date_of_birth", "postal_address",)}),)
+    list_display = ["email", "date_of_birth", "is_staff",]
+    fieldsets = UserAdmin.fieldsets + ((None, {"fields": ("date_of_birth",)}),)
+    add_fieldsets = UserAdmin.add_fieldsets + ((None, {"fields": ("date_of_birth",)}),)
 
 admin.site.register(Customer, CustomerAdmin)
