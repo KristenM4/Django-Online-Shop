@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
 from django.views.generic import CreateView
+from django.views.generic.detail import DetailView
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from .models import Product
@@ -16,6 +17,10 @@ class HomePageView(TemplateView):
         all_products = Product.objects.all()
         context["products"] = all_products
         return context
+
+class DetailPageView(DetailView):
+    model = Product
+    template_name = "detail.html"
 
 class SignUpView(CreateView):
     form_class = UserCreationForm

@@ -28,3 +28,8 @@ class HomePageTest(TestCase):
     def test_uses_correct_template(self):
         response = self.client.get("/")
         self.assertTemplateUsed(response, "home.html")
+
+class DetailPageTest(TestCase):
+
+    def test_uses_correct_template(self):
+        pass
