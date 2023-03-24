@@ -6,6 +6,12 @@ from accounts.models import Customer
 class Category(models.Model):
     name = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "Categories"
+
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
@@ -17,9 +23,15 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     slug = models.CharField(max_length=255, default="", unique=True, db_index=True)
 
+    def __str__(self):
+        return f"{self.name} - {self.price} - {self.category}"
+
 
 class Order(models.Model):
     date = models.DateField(auto_now_add=True)
     customer = models.OneToOneField(Customer, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
     quantity = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.date}: {self.product} - {self.quantity}, {self.customer}"
