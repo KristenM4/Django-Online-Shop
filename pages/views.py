@@ -22,7 +22,13 @@ class DetailPageView(DetailView):
     model = Product
     template_name = "detail.html"
 
-class SignUpView(CreateView):
-    form_class = UserCreationForm
-    success_url = reverse_lazy("login")
-    template_name = "registration/signup.html"
+class CategoryPageView(TemplateView):
+    template_name = "cat.html"
+
+    def get(self, request, category):
+        first_item = Product.objects.all()[0]
+        print(first_item.category.name)
+        cat_items = Product.objects.filter(category__name=category.title())
+        print(cat_items)
+        return render(request, "cat.html", {"category": cat_items})
+
