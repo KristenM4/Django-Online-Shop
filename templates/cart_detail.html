@@ -59,7 +59,9 @@
                 {% endfor %}
                 <div class="d-flex float-right col-12 align-items-center justify-content-end">
                     <h4 class="float-right">Total: ${{total|floatformat:2}}</h4>
-                    <button class="btn btn-dark btn-lg ms-5" type="submit">Checkout</button>
+                    <a href="{% url 'address' %}">
+                        <button class="btn btn-dark btn-lg ms-5" type="button">Checkout</button>
+                    </a>
                 </div>
             {% endif %}
         </div>

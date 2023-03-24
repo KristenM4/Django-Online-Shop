@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from .models import Product
+from accounts.models import CustomerAddress, Customer
 from cart.cart import Cart
 
 # Create your views here.
@@ -77,3 +78,16 @@ def cart_detail(request):
     for id,item in request.session['cart'].items():
         total_amt+= int(item['quantity'])*float(item['price'])
     return render(request, 'cart_detail.html', {'total': total_amt})
+
+class AddressFormView(CreateView):
+    template_name = "address.html"
+    model = CustomerAddress
+    fields = "__all__"
+
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        total_amt = 0
+        for id,item in self.request.session['cart'].items():
+            total_amt+= int(item['quantity'])*float(item['price'])
+        context["total"] = total_amt
+        return context

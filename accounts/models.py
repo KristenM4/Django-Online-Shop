@@ -4,6 +4,11 @@ from django_countries.fields import CountryField
 
 # Create your models here.
 
+
+class Customer(AbstractUser):
+    date_of_birth = models.DateField(null=True, blank=True)
+
+
 class CustomerAddress(models.Model):
     address_one = models.CharField(max_length=300)
     address_two = models.CharField(max_length=300, blank=True)
@@ -11,6 +16,4 @@ class CustomerAddress(models.Model):
     state = models.CharField(max_length=2, blank=True)
     zipcode = models.IntegerField()
     country = CountryField()
-
-class Customer(AbstractUser):
-    date_of_birth = models.DateField(null=True, blank=True)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True)
