@@ -1,5 +1,5 @@
 from django.db import models
-from accounts.models import Customer
+from accounts.models import Customer, CustomerAddress
 
 # Create your models here.
 
@@ -29,7 +29,8 @@ class Product(models.Model):
 
 class Order(models.Model):
     date = models.DateField(auto_now_add=True)
-    customer = models.OneToOneField(Customer, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    address = models.ForeignKey(CustomerAddress, on_delete=models.PROTECT, null=True)
 
     def __str__(self):
         return f"{self.date} {self.customer}"
