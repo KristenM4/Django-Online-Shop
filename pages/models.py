@@ -30,8 +30,11 @@ class Product(models.Model):
 class Order(models.Model):
     date = models.DateField(auto_now_add=True)
     customer = models.OneToOneField(Customer, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.PROTECT)
-    quantity = models.PositiveIntegerField(default=1)
 
     def __str__(self):
-        return f"{self.date}: {self.product} - {self.quantity}, {self.customer}"
+        return f"{self.date} {self.customer}"
+
+class OrderItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    quantity = models.PositiveIntegerField()
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)

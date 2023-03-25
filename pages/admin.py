@@ -13,8 +13,8 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ("name",)
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ("date", "customer", "product", "quantity",)
-    list_filter = ("date", "customer", "product",)
+    list_display = ("date", "customer",)
+    list_filter = ("date", "customer",)
 
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Category, CategoryAdmin)
