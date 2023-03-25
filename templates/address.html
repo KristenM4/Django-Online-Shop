@@ -7,7 +7,7 @@
     <div class="container h-100 py-5">
         <div class="col-10">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h4 class="display-5">Your Cart</h4>
+                <h4>Your Cart</h4>
             </div>
                 {% for key,value in request.session.cart.items %}
                 <div class="card rounded-3 mb-2">
@@ -29,11 +29,22 @@
                         </div>
                     </div>
                 </div>
-                {% endfor %}
                 <div class="d-flex float-right col-12 align-items-center justify-content-end">
                     <h4 class="float-right">Total: ${{total|floatformat:2}}</h4>
                 </div>
-            <h4 class="display-5">Enter Postal Address</h4>
+                {% endfor %}
+                {% if addresses %}
+                    <h5 class="display-6">Use Saved Address</h5>
+                            {% for item in addresses %}
+                            <div class="card" style="width:32rem;">
+                            <div class="d-flex p-2">{{item.address_one}} {{item.address_two}}
+                                {{item.zipcode}} {{item.city}}, {{item.state}} {{item.country}}
+                            </div>
+                            </div>
+                            <div class="d-inline-flex p-2"><button class="btn btn-success btn-sm">Use</button></div>
+                    {% endfor %}
+                {% endif %}
+            <h4 class="display-6">Enter New Postal Address</h4>
             <form action="" method="POST"><br>
                 {% csrf_token %}
                 {{ form|crispy }}

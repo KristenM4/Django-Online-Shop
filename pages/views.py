@@ -83,9 +83,11 @@ class AddressFormView(CreateView):
     template_name = "address.html"
     model = CustomerAddress
     fields = "__all__"
+    success_url = reverse_lazy("home")
 
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
+        context["addresses"] = self.request.user.customeraddress_set.all()
         total_amt = 0
         for id,item in self.request.session['cart'].items():
             total_amt+= int(item['quantity'])*float(item['price'])
