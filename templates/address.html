@@ -10,7 +10,7 @@
                 <h4>Your Cart</h4>
             </div>
                 {% for key,value in request.session.cart.items %}
-                <div class="card rounded-3 mb-2">
+                <div class="card rounded-3">
                     <div class="card-body">
                     <div class="row d-flex justify-content-between align-items-center">
                         <div class="d-none d-sm-flex col-sm-2 col-lg-2 col-xl-2">
@@ -34,22 +34,21 @@
                     <h4 class="float-right">Total: ${{total|floatformat:2}}</h4>
                 </div>
                 {% if addresses %}
-                    <h5 class="display-6">Use Saved Address</h5>
+                    <h5 class="display-6 p-2">Use Saved Address</h5>
                             {% for item in addresses %}
-                            <div class="card" style="width:32rem;">
-                            <div class="d-flex p-2">{{item.address_one}} {{item.address_two}}
+                            <div class="d-inline-flex p-2 bg-white rounded pe-4">{{item.address_one}} {{item.address_two}}
                                 {{item.zipcode}} {{item.city}}, {{item.state}} {{item.country}}
                             </div>
-                            </div>
                             <div class="d-inline-flex p-2"><button class="btn btn-success btn-sm">Use</button></div>
+                            <br>
                     {% endfor %}
                 {% endif %}
-            <h4 class="display-6">Enter New Postal Address</h4>
+            <h4 class="display-6 mt-4">Enter New Postal Address</h4>
             <form action="" method="POST"><br>
                 {% csrf_token %}
                 {{ form|crispy }}
                 <br>
-                <button type="submit" class="btn btn-dark btn-lg">Submit Address</button>
+                <button type="submit" class="btn btn-success btn-lg">Submit Address</button>
             </form>
         </div>
     </div>
