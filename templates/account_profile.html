@@ -10,7 +10,7 @@ Your Account
         <h4 class="display-4 mb-5">Your Account</h4>
         <!-- Personal Details -->
         <h5>Details</h5>
-        <div class="col-6">
+        <div class="col-lg-6 col-xs-10">
             <table class="table table-light table-borderless">
                 <tbody>
                 <tr>
@@ -36,7 +36,7 @@ Your Account
                 </tbody>
             </table>
         <!-- Address List -->
-        <h5 class="mt-5">Your Addresses <button class="ms-3 btn btn-sm btn-info p-2">Add New Address</button></h5>
+        <h5 class="mt-5">Your Addresses <button class="ms-3 btn btn-sm btn-success p-2">Add New Address</button></h5>
             <div class="card rounded-3 mb-4">
                 <div class="card-body p-2">
                     {% for item in user.customeraddress_set.all %}
@@ -45,7 +45,7 @@ Your Account
                                 {{item}}
                             </div>
                             <div class="col-lg-1">
-                                <a href="{% url 'home' %}" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
+                                <a href="{% url 'delete_address' item.id %}" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
                             </div>
                             <hr class="ms-5 w-75 mt-3">
                         </div>
