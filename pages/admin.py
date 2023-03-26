@@ -9,12 +9,22 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ("category", "discount", "stock_quantity",)
     prepopulated_fields = {"slug": ("name",)}
 
+class ProductInline(admin.TabularInline):
+    model = Product
+    extra = 0
+
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ("name",)
+    inlines = [ProductInline,]
+
+class OrderItemInline(admin.TabularInline):
+    model = OrderItem
+    extra = 0
 
 class OrderAdmin(admin.ModelAdmin):
     list_display = ("date", "customer",)
     list_filter = ("date", "customer",)
+    inlines = [OrderItemInline,]
 
 class OrderItemAdmin(admin.ModelAdmin):
     list_display = ("product", "quantity", "order")
