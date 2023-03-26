@@ -39,7 +39,9 @@
                             <div class="d-inline-flex p-2 bg-white rounded pe-4">{{item.address_one}} {{item.address_two}}
                                 {{item.zipcode}} {{item.city}}, {{item.state}} {{item.country}}
                             </div>
+                            <a href="{% url 'place_order' item.id %}" class="text-decoration-none">
                             <div class="d-inline-flex p-2"><button class="btn btn-success btn-sm">Use</button></div>
+                            </a>
                             <br>
                     {% endfor %}
                 {% endif %}
