@@ -3,6 +3,7 @@ from django.views.generic import CreateView
 from django.views.generic.base import TemplateView
 from django.urls import reverse_lazy
 from django.db.models import ProtectedError
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .forms import CustomerCreationForm
 from .models import CustomerAddress
@@ -15,7 +16,7 @@ class SignUpView(CreateView):
     template_name = "registration/signup.html"
 
 
-class AccountProfileView(TemplateView):
+class AccountProfileView(LoginRequiredMixin, TemplateView):
     template_name = "account_profile.html"
 
 
@@ -28,7 +29,7 @@ def delete_address(request, id):
         address.save()
     return redirect("account_profile")
 
-class NewAddressView(CreateView):
+class NewAddressView(LoginRequiredMixin, CreateView):
     model = CustomerAddress
     template_name = "new_address.html"
     success_url = reverse_lazy("account_profile")

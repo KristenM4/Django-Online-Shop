@@ -5,6 +5,7 @@ urlpatterns = [
     path("product/<slug:slug>", views.DetailPageView.as_view(), name="detail"),
     path("category/<category>", views.CategoryPageView.as_view(), name="category"),
     path("", views.HomePageView.as_view(), name="home"),
+    path("about/", views.AboutPageView.as_view(), name="about"),
     
     path("cart/add/<int:id>/", views.cart_add, name="cart_add"),
     path("cart/item_clear/<int:id>/", views.item_clear, name="item_clear"),

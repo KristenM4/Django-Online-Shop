@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+About The Sea Wolf
+{% endblock title %}
+
+{% block content %}
+<section class="h-100" style="background-color: #eee;">
+    <div class="container h-100 py-5">
+        <div class="col-xl-10 col-xs-12 mx-auto">
+            <h4 class="display-4 mb-5">About Us</h4>
+            <p>
+                <b>Aloha and welcome to your new favorite Hawaiian Surfing and Diving store!</b> We have been providing top-quality 
+                gear and accessories for surfers and divers alike since our founding in 2011. 
+            </p>
+            <p>
+                Our goal has always been to share our passion for the ocean and all of the thrilling activities associated with it. 
+                That's why we offer an extensive selection of surfboards, wetsuits, fins, masks, snorkels, tanks, and 
+                everything else you need to make the most of your aquatic adventures in Hawaii. Our knowledgeable staff 
+                is always eager to offer expert advice and recommendations, so don't hesitate to ask us anything. 
+            </p>
+            <p>
+                We're proud to be a locally-owned and operated establishment, and we strive to embody the spirit of "aloha" 
+                in everything we do. Come visit us today and experience the true essence of surfing and diving culture!
+            </p>
+            <figure class="figure">
+                <img src="{% static 'images/shack1.jpg' %}" class="figure-img img-fluid" alt="A small shack by the beach in Hawaii">
+                <figcaption class="figure-caption">Our first store back in 2011</figcaption>
+            </figure>
+        </div>
+    </div>
+</section> 
+{% endblock content %}

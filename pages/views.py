@@ -23,6 +23,9 @@ class HomePageView(TemplateView):
         context["products"] = all_products
         return context
 
+class AboutPageView(TemplateView):
+    template_name = "about.html"
+
 class DetailPageView(DetailView):
     model = Product
     template_name = "detail.html"
