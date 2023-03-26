@@ -8,6 +8,8 @@ from django.urls import reverse_lazy, reverse
 from .models import Product, Order, OrderItem
 from accounts.models import CustomerAddress
 from cart.cart import Cart
+from decouple import config
+import smtplib
 
 # Create your views here.
 
@@ -118,12 +120,33 @@ class PlaceOrderView(DetailView):
         return context
     
     def post(self, request, *args, **kwargs):
+        company_email = config("EMAIL_HOST_USER")
+        company_pass = config("EMAIL_HOST_PASSWORD")
         address = CustomerAddress.objects.get(pk=self.kwargs["pk"])
         customer = self.request.user
+
         new_order = Order.objects.create(customer=customer, address=address)
         for id,item in self.request.session["cart"].items():
             product = Product.objects.get(name=item["name"])
             new_item = OrderItem.objects.create(product=product, quantity=item["quantity"], order=new_order)
+
+        items_message = ""
+        items_total = 0
+        for item in new_order.orderitem_set.all():
+            items_message += f"{item}\n"
+            items_total += round(item.product.price * item.quantity, 2)
+
+        with smtplib.SMTP("smtp.gmail.com", 587) as connection:
+            message = f"Thanks for the order, {customer.first_name}! Order details are below:\n\n{new_order}\n{items_message}\nOrder Total: ${items_total}"
+            connection.starttls()
+            connection.login(user=company_email, password=company_pass)
+            final_message = f"Subject: Thank you for your order!\n\n{message}"
+            connection.sendmail(from_addr=company_email, to_addrs=customer.email, msg=final_message)
+            connection.close()
+
+        cart = Cart(request)
+        cart.clear()
+
         return redirect("order_success")
 
 class OrderSuccessView(TemplateView):

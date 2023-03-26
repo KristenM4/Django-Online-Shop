@@ -20,4 +20,4 @@ class CustomerAddress(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return self.address_one
+        return f"{self.address_one} {self.address_two} {self.zipcode} {self.city}, {self.state} {self.country}"
