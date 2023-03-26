@@ -29,10 +29,10 @@
                         </div>
                     </div>
                 </div>
+                {% endfor %}
                 <div class="d-flex float-right col-12 align-items-center justify-content-end">
                     <h4 class="float-right">Total: ${{total|floatformat:2}}</h4>
                 </div>
-                {% endfor %}
                 {% if addresses %}
                     <h5 class="display-6">Use Saved Address</h5>
                             {% for item in addresses %}

@@ -82,8 +82,12 @@ def cart_detail(request):
 class AddressFormView(CreateView):
     template_name = "address.html"
     model = CustomerAddress
-    fields = "__all__"
+    fields = ("address_one", "address_two", "city", "state", "zipcode", "country",)
     success_url = reverse_lazy("home")
+
+    def form_valid(self, form):
+        form.instance.customer = self.request.user
+        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
