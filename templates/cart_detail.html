@@ -14,6 +14,11 @@
                 <h4>Your cart is empty! Take a look at <a href="{% url 'home' %}" class="text-decoration-none text-info">our products</a></h4>
                 </div>
             </div>
+            <div class="pb-5 mb-5"></div>
+            <div class="pb-5 mb-5"></div>
+            <div class="pb-5 mb-5"></div>
+            <div class="pb-5 mb-5"></div>
+            <div class="pb-5 mb-5"></div>
             {% else %}
                 {% for key,value in request.session.cart.items %}
                 <div class="card rounded-3 mb-4">

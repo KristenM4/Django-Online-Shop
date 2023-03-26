@@ -3,7 +3,7 @@
 
 {% block content %}
 <section class="py-5">
-    <div class="container px-4 px-lg-5 my-5">
+    <div class="container pt-4 px-lg-5 my-5">
         <h1 class="display-3">Log In</h1>
         <br>
         <form method="POST">
@@ -12,7 +12,9 @@
             <button type="submit" class="btn btn-outline-secondary">Log In</button>
         </form>
         <br>
-        <p><a class="link-primary" href="{% url 'password_reset' %}">Forgot your password?</a></p>
+        <p class="pb-5"><a class="link-primary" href="{% url 'password_reset' %}">Forgot your password?</a></p>
     </div>
+    <div class="pb-5 mb-5"></div>
+    <div class="pb-2 mb-5"></div>
 </section>
 {% endblock content %}

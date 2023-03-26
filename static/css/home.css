@@ -1,8 +1,20 @@
 #main-header {
-    background-image: url("../images/surfer2.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+    background-image: url("../images/surfer2.jpg");
+}
+#surfing-header {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-image: url("../images/boards1.jpg");
+}
+#diving-header {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-image: url("../images/diving2.jpg");
 }
 
 .mb-5 a {
