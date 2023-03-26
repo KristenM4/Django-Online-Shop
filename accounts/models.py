@@ -18,3 +18,6 @@ class CustomerAddress(models.Model):
     zipcode = models.IntegerField()
     country = CountryField()
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return self.address_one

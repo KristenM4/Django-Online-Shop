@@ -33,9 +33,12 @@ class Order(models.Model):
     address = models.ForeignKey(CustomerAddress, on_delete=models.PROTECT, null=True)
 
     def __str__(self):
-        return f"{self.date} {self.customer}"
+        return f"{self.date} {self.customer}, {self.address}"
 
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
     quantity = models.PositiveIntegerField()
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.product} - {self.quantity}, {self.order}"
