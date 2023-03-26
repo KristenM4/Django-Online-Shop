@@ -15,4 +15,5 @@ urlpatterns = [
 
     path("checkout/address", views.AddressFormView.as_view(), name="address"),
     path("checkout/place_order/<int:pk>/", views.PlaceOrderView.as_view(), name="place_order"),
+    path("checkout/order_success/", views.OrderSuccessView.as_view(), name="order_success"),
 ]

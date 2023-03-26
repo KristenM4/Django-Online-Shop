@@ -124,4 +124,7 @@ class PlaceOrderView(DetailView):
         for id,item in self.request.session["cart"].items():
             product = Product.objects.get(name=item["name"])
             new_item = OrderItem.objects.create(product=product, quantity=item["quantity"], order=new_order)
-        return redirect("home")
+        return redirect("order_success")
+
+class OrderSuccessView(TemplateView):
+    template_name = "order_success.html"
