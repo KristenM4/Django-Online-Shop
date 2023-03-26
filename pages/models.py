@@ -41,4 +41,4 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.product.name} - Quantity: {self.quantity} - {self.product.price * self.quantity}"
+        return f"{self.product.name} - Quantity: {self.quantity} - ${self.product.price * self.quantity}"

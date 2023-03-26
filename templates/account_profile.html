@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}
+Your Account
+{% endblock title %}
+
+{% block content %}
+<section class="h-100" style="background-color: #eee;">
+    <div class="container h-100 py-5">
+        <h4 class="display-4 mb-5">Your Account</h4>
+        <!-- Personal Details -->
+        <h5>Details</h5>
+        <div class="col-6">
+            <table class="table table-light table-borderless">
+                <tbody>
+                <tr>
+                    <td>Name:</td>
+                    <td>{{user.first_name}} {{user.last_name}}</td>
+                </tr>
+                <tr>
+                    <td>Username:</td>
+                    <td>{{user.username}}</td>
+                </tr>
+                <tr>
+                    <td>Email Address:</td>
+                    <td>{{user.email}}</td>
+                </tr>
+                <tr>
+                    <td>Date of Birth:</td>
+                    <td>{{user.date_of_birth}}</td>
+                </tr>
+                <tr>
+                    <td>Date Joined:</td>
+                    <td>{{user.date_joined|date:"D d M Y"}}</td>
+                </tr>
+                </tbody>
+            </table>
+        <!-- Address List -->
+        <h5 class="mt-5">Your Addresses <button class="ms-3 btn btn-sm btn-info p-2">Add New Address</button></h5>
+            <div class="card rounded-3 mb-4">
+                <div class="card-body p-2">
+                    {% for item in user.customeraddress_set.all %}
+                        <div class="row d-flex justify-content-between align-items-center mt-2">
+                            <div class="col-md-9">
+                                {{item}}
+                            </div>
+                            <div class="col-lg-1">
+                                <a href="{% url 'home' %}" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
+                            </div>
+                            <hr class="ms-5 w-75 mt-3">
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <!-- Order History -->
+        <h5 class="mt-5">Your Order History</h5>
+        <table class="table table-light table-striped">
+            <thead>
+              <tr class="table-info">
+                <th scope="col">Order Number</th>
+                <th scope="col">Date</th>
+                <th scope="col">Items</th>
+                <th scope="col">Address</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for item in user.order_set.all %}
+              <tr>
+                <th scope="row">{{item.id}}</th>
+                <td>{{item.date}}</td>
+                <td>
+                    {% for product in item.orderitem_set.all %}
+                    <p>{{product}}</p>
+                    {% endfor %}
+                </td>
+                <td>{{item.address}}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+    </div>
+</section>
+{% endblock content %}
