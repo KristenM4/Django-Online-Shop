@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}New Address{% endblock title %}
+
+{% block content %}
+<section class="h-100" style="background-color: #eee;">
+    <div class="container h-100 py-5">
+        <h5 class="display-5 mb-5">Add New Address</h5>
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{form|crispy}}
+            <button class="btn btn-lg btn-success">Submit</button>
+        </form>
+    </div>
+</section>
+{% endblock content %}

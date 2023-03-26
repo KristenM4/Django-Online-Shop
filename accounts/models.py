@@ -18,6 +18,7 @@ class CustomerAddress(models.Model):
     zipcode = models.IntegerField()
     country = CountryField()
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True)
+    hidden = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.address_one} {self.address_two} {self.zipcode} {self.city}, {self.state} {self.country}"

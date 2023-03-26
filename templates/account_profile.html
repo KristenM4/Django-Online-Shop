@@ -36,19 +36,21 @@ Your Account
                 </tbody>
             </table>
         <!-- Address List -->
-        <h5 class="mt-5">Your Addresses <button class="ms-3 btn btn-sm btn-success p-2">Add New Address</button></h5>
+        <h5 class="mt-5">Your Addresses <a href="{% url 'new_address' %}" class="text-decoration-none"><button class="ms-3 btn btn-sm btn-success p-2">Add New Address</button></a></h5>
             <div class="card rounded-3 mb-4">
                 <div class="card-body p-2">
                     {% for item in user.customeraddress_set.all %}
+                    {% if not item.hidden %}
                         <div class="row d-flex justify-content-between align-items-center mt-2">
                             <div class="col-md-9">
-                                {{item}}
+                                {{item}} {{item.hidden}}
                             </div>
                             <div class="col-lg-1">
                                 <a href="{% url 'delete_address' item.id %}" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
                             </div>
                             <hr class="ms-5 w-75 mt-3">
                         </div>
+                    {% endif %}
                     {% endfor %}
                 </div>
             </div>
