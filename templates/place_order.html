@@ -24,13 +24,31 @@
             </div>
         {% endfor %}
         <h4 class="mt-3">Order Total: ${{total|floatformat:2}}</h4>
-        <h5 class="mt-5 mb-3">Postal Address</h5>
-        <div class="d-inline-flex p-3 bg-white rounded pe-4">
-            {{object.address_one}}<br>
-            {{object.address_two}}<br>
-            {{object.city}}, {{object.state}} {{object.zipcode}}<br>
-            {{object.country}}
+        <div class="col-10 d-flex">
+            <div class="col-5">
+            <h5 class="mt-5 mb-3">Postal Address</h5>
+            </div>
+            <div class="col-5">
+            <h5 class="mt-5 mb-3">Personal Details</h5>
+            </div>
         </div>
+        <div class="col-10 d-flex">
+            <div class="p-3 bg-white rounded pe-4 col-5">
+                <p>{{object.address_one}}</p>
+                <p>{{object.address_two}}</p>
+                <p>{{object.city}}, {{object.state}} {{object.zipcode}}</p>
+                <p>{{object.country}}</p>
+            </div>
+            <div class="p-3 bg-white rounded pe-4 col-5">
+                <p>Name: {{user.first_name}} {{user.last_name}}</p>
+                <p>Email: {{user.email}}</p>
+                <p>Date of Birth: {{user.date_of_birth}}</p>
+            </div>
+        </div>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-dark btn-lg mt-5 mb-5">Place Order</button>
+        </form>
     </div>
 </section>
 {% endblock content %}

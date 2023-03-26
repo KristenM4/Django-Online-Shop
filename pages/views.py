@@ -116,3 +116,12 @@ class PlaceOrderView(DetailView):
             total_amt+= int(item['quantity'])*float(item['price'])
         context["total"] = total_amt
         return context
+    
+    def post(self, request, *args, **kwargs):
+        address = CustomerAddress.objects.get(pk=self.kwargs["pk"])
+        customer = self.request.user
+        new_order = Order.objects.create(customer=customer, address=address)
+        for id,item in self.request.session["cart"].items():
+            product = Product.objects.get(name=item["name"])
+            new_item = OrderItem.objects.create(product=product, quantity=item["quantity"], order=new_order)
+        return redirect("home")
