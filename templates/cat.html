@@ -29,7 +29,7 @@
             {% for item in category %}
                 <div class="col mb-5">
                     <a href="{% url 'detail' item.slug %}">
-                    <div class="card h-100">
+                    <div class="card h-100 product_card">
                         <!-- Product image-->
                         <img class="card-img-top" src="{{ item.image.url }}" alt="{{ item.name }}" />
                         <!-- Product details-->
