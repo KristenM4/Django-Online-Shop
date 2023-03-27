@@ -5,6 +5,7 @@ from .models import Product, Category
 
 class ProductAndCategoryModelsTest(TestCase):
     def test_saving_and_retrieving_products(self):
+        #Also tests Detail View
         category_ = Category(name="Some category")
         category_.save()
         product = Product(
@@ -21,6 +22,11 @@ class ProductAndCategoryModelsTest(TestCase):
         new_product = Product.objects.all()[0]
         self.assertEqual(new_product.name, "New Product")
         self.assertEqual(new_product.category, category_)
+        # Test Detail View with new product's slug
+        new_product.slug = "new-product"
+        new_product.save()
+        response = self.client.get("/product/new-product")
+        self.assertTemplateUsed(response, "detail.html")
 
 
 class HomePageTest(TestCase):
@@ -29,7 +35,8 @@ class HomePageTest(TestCase):
         response = self.client.get("/")
         self.assertTemplateUsed(response, "home.html")
 
-class DetailPageTest(TestCase):
+class AboutPageTest(TestCase):
 
     def test_uses_correct_template(self):
-        pass
+        response = self.client.get("/about/")
+        self.assertTemplateUsed(response, "about.html")

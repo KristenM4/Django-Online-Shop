@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import WebDriverException
+from pages.models import Product, Category
 import os
 import time
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
@@ -17,6 +18,17 @@ class SiteVisitorTest(StaticLiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
+        category_1 = Category.objects.create(name="first_category")
+        product_1 = Product.objects.create(
+            name="first product",
+            price=9.99,
+            image="img_link",
+            description="this is our first product",
+            stock_quantity=5,
+            discount=.00,
+            category=category_1,
+            slug="first-product",
+        )
     
     def tearDown(self):
         self.browser.quit()
@@ -32,8 +44,15 @@ class SiteVisitorTest(StaticLiveServerTestCase):
         header_text = self.browser.find_element(By.TAG_NAME, "h1").text
         self.assertIn("The Sea Wolf", header_text)
 
-        # Agnes sees various products displayed on the home page
+        # Agnes sees the first product displayed on the home page
+        products = self.browser.find_elements(By.CLASS_NAME, "product_card")
+        self.assertEqual(len(products), 1)
+        first_product = products[0]
 
-        # She clicks on a product and is taken to the product's detail page
+        # She clicks on the product and is taken to the product's detail page
+        first_product.click()
+        self.assertTemplateUsed("detail.html")
+        product_name = self.browser.find_element(By.CLASS_NAME, "fw-bolder")
+        self.assertEqual(product_name.text, "first product")
 
         # Using the navbar, Agnes goes to the All Products page
