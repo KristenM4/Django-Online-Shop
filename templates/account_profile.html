@@ -43,7 +43,7 @@ Your Account
                     {% if not item.hidden %}
                         <div class="row d-flex justify-content-between align-items-center mt-2">
                             <div class="col-md-9">
-                                {{item}} {{item.hidden}}
+                                {{item}}
                             </div>
                             <div class="col-lg-1">
                                 <a href="{% url 'delete_address' item.id %}" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Account Created{% endblock title %}
+
+{% block content %}
+<header class="py-5" id="success-header">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 class="display-2 fw-bold">Account Created</h1>
+            </div>
+        </div>
+    </header>
+<section class="h-100" style="background-color: #eee;">
+    <div class="container h-100 pt-4 pb-5">
+        <h3 class="display-4 mb-5">Welcome to the Sea Wolf family!</h3>
+        <p>Thank you for creating an account with us.</p>
+        <p>Proceed to the <a href="{% url 'login' %}" class="link-primary">Log In page</a> and enter your username and password.</p>
+    
+    
+    <div class="pb-5 mb-5"></div>
+    <div class="pb-5 mb-5"></div>
+    <div class="pb-5 mb-3"></div>
+    </div>
+</section>
+{% endblock content %}

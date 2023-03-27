@@ -12,8 +12,11 @@ from .models import CustomerAddress
 
 class SignUpView(CreateView):
     form_class = CustomerCreationForm
-    success_url = reverse_lazy("login")
+    success_url = reverse_lazy("signup_success")
     template_name = "registration/signup.html"
+
+class SignupSuccessView(TemplateView):
+    template_name = "signup_success.html"
 
 
 class AccountProfileView(LoginRequiredMixin, TemplateView):
