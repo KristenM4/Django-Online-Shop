@@ -1,3 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,900;1,300&family=Roboto&family=Source+Sans+Pro&family=Ubuntu&display=swap');
+body, html {
+    font-family: 'Source Sans Pro', sans-serif;
+}
+p {
+    font-size: 1.1rem;
+}
+#body-section {
+    height: 100%;
+}
+
 #main-header {
     background-repeat: no-repeat;
     background-size: cover;

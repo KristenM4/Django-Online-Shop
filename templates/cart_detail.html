@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load cart_tag %}
 
+{% block title %}Your Cart{% endblock title %}
+
 {% block content %}
 <section class="h-100" style="background-color: #eee;">
     <div class="container h-100 py-5">
@@ -14,11 +16,6 @@
                 <h4>Your cart is empty! Take a look at <a href="{% url 'home' %}" class="text-decoration-none text-info">our products</a></h4>
                 </div>
             </div>
-            <div class="pb-5 mb-5"></div>
-            <div class="pb-5 mb-5"></div>
-            <div class="pb-5 mb-5"></div>
-            <div class="pb-5 mb-5"></div>
-            <div class="pb-5 mb-5"></div>
             {% else %}
                 {% for key,value in request.session.cart.items %}
                 <div class="card rounded-3 mb-4">
@@ -69,10 +66,6 @@
                     </a>
                 </div>
                 
-            <div class="pb-5 mb-5"></div>
-            <div class="pb-5 mb-5"></div>
-            <div class="pb-5 mb-5"></div>
-            <div class="pb-3 mb-5"></div>
             {% endif %}
         </div>
     </div>

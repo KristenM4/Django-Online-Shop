@@ -9,41 +9,41 @@ Your Account
     <div class="container h-100 py-5">
         <h4 class="display-4 mb-5">Your Account</h4>
         <!-- Personal Details -->
-        <h5>Details</h5>
+        <h4>Details</h4>
         <div class="col-lg-6 col-xs-10">
             <table class="table table-light table-borderless">
                 <tbody>
                 <tr>
-                    <td>Name:</td>
-                    <td>{{user.first_name}} {{user.last_name}}</td>
+                    <td><p>Name:</p></td>
+                    <td><p>{{user.first_name}} {{user.last_name}}</p></td>
                 </tr>
                 <tr>
-                    <td>Username:</td>
-                    <td>{{user.username}}</td>
+                    <td><p>Username:</p></td>
+                    <td><p>{{user.username}}</p></td>
                 </tr>
                 <tr>
-                    <td>Email Address:</td>
-                    <td>{{user.email}}</td>
+                    <td><p>Email Address:</p></td>
+                    <td><p>{{user.email}}</p></td>
                 </tr>
                 <tr>
-                    <td>Date of Birth:</td>
-                    <td>{{user.date_of_birth}}</td>
+                    <td><p>Date of Birth:</p></td>
+                    <td><p>{{user.date_of_birth}}</p></td>
                 </tr>
                 <tr>
-                    <td>Date Joined:</td>
-                    <td>{{user.date_joined|date:"D d M Y"}}</td>
+                    <td><p>Date Joined:</p></td>
+                    <td><p>{{user.date_joined|date:"D d M Y"}}</p></td>
                 </tr>
                 </tbody>
             </table>
         <!-- Address List -->
-        <h5 class="mt-5">Your Addresses <a href="{% url 'new_address' %}" class="text-decoration-none"><button class="ms-3 btn btn-sm btn-success p-2">Add New Address</button></a></h5>
+        <h4 class="mt-5">Your Addresses <a href="{% url 'new_address' %}" class="text-decoration-none"><button class="ms-3 btn btn-sm btn-success p-2">Add New Address</button></a></h4>
             <div class="card rounded-3 mb-4">
                 <div class="card-body p-2">
                     {% for item in user.customeraddress_set.all %}
                     {% if not item.hidden %}
                         <div class="row d-flex justify-content-between align-items-center mt-2">
                             <div class="col-md-9">
-                                {{item}}
+                                <p>{{item}}</p>
                             </div>
                             <div class="col-lg-1">
                                 <a href="{% url 'delete_address' item.id %}" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
@@ -56,27 +56,27 @@ Your Account
             </div>
         </div>
         <!-- Order History -->
-        <h5 class="mt-5">Your Order History</h5>
+        <h4 class="mt-5">Your Order History</h4>
         <table class="table table-light table-striped">
             <thead>
               <tr class="table-info">
-                <th scope="col">Order Number</th>
-                <th scope="col">Date</th>
-                <th scope="col">Items</th>
-                <th scope="col">Address</th>
+                <th scope="col"><p>Order Number</p></th>
+                <th scope="col"><p>Date</p></th>
+                <th scope="col"><p>Items</p></th>
+                <th scope="col"><p>Address</p></th>
               </tr>
             </thead>
             <tbody>
             {% for item in user.order_set.all %}
               <tr>
-                <th scope="row">{{item.id}}</th>
-                <td>{{item.date}}</td>
+                <th scope="row"><p>{{item.id}}</p></th>
+                <td><p>{{item.date}}</p></td>
                 <td>
                     {% for product in item.orderitem_set.all %}
                     <p>{{product}}</p>
                     {% endfor %}
                 </td>
-                <td>{{item.address}}</td>
+                <td><p>{{item.address}}</p></td>
               </tr>
             {% endfor %}
             </tbody>
