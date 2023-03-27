@@ -19,7 +19,7 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        all_products = Product.objects.all()
+        all_products = Product.objects.all().order_by("slug")[:8]
         context["products"] = all_products
         return context
 
@@ -29,6 +29,12 @@ class AboutPageView(TemplateView):
 class DetailPageView(DetailView):
     model = Product
     template_name = "detail.html"
+
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        current_category = self.get_object()
+        context["related"] = Product.objects.filter(category__name=current_category.category.name)[:4]
+        return context
 
 class CategoryPageView(TemplateView):
     template_name = "cat.html"

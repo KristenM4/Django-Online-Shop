@@ -22,11 +22,26 @@ p {
     background-position: center;
     background-image: url("../images/boards1.jpg");
 }
-#diving-header {
+#snorkel-header {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     background-image: url("../images/diving2.jpg");
+    color: #eee;
+}
+#fin-header {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-image: url("../images/diving3.jpg");
+    color: #eee;
+}
+#mask-header {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-image: url("../images/diving4.jpg");
+    color: #eee;
 }
 #success-header {
     background-repeat: no-repeat;

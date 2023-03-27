@@ -13,11 +13,15 @@
 <!-- Header -->
 {% if  category.first.category.name == 'Surfboards' %}
 <header class="py-5" id="surfing-header">
-{% elif category.first.category.name == 'Diving' %}
-<header class="py-5" id="diving-header">
+{% elif category.first.category.name == 'Snorkels' %}
+<header class="py-5" id="snorkel-header">
+{% elif category.first.category.name == 'Fins' %}
+<header class="py-5" id="fin-header">
+{% elif category.first.category.name == 'Masks' %}
+<header class="py-5" id="mask-header">
 {% endif %}
     <div class="container px-4 px-lg-5 my-5">
-        <div class="text-center text-dark">
+        <div class="text-center">
             <h1 class="display-2 fw-bolder">{{category.first.category}}</h1>
         </div>
     </div>
