@@ -3,7 +3,7 @@ body, html {
     font-family: 'Source Sans Pro', sans-serif;
     background-color: #eee;
 }
-p {
+p, a {
     font-size: 1.1rem;
 }
 #body-section {
