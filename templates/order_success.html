@@ -1,13 +1,17 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Order Placed{% endblock title %}
 
 {% block content %}
-<section class="h-100" style="background-color: #eee;" id="body-section">
-    <div class="container h-100 py-5">
-        <h3 class="display-3 mx-4 mb-4">Thank you for your purchase!</h3>
+<section class="h-100" style="background-color: #eee;">
+    <div class="container h-100 py-4 col-10">
+        <h3 class="display-3 mb-4">Thank you for your purchase!</h3>
         <p>You will receive an email with your order details.</p>
         <p><a href="{% url 'home' %}" class="link-info">Continue Shopping</a></p>
+    </div>
+    <div class="col-md-10 col-xs-12 mx-auto">
+        <img src="{% static 'images/surfer4.jpg' %}" class="img-fluid mt-4 mt-xs-5" alt="A woman holding a surfboard">
     </div>
 </section>
 {% endblock content %}
