@@ -32,8 +32,17 @@ class DetailPageView(DetailView):
 
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
-        current_category = self.get_object()
-        context["related"] = Product.objects.filter(category__name=current_category.category.name)[:4]
+        current_product = self.get_object()
+        context["related"] = Product.objects.filter(category__name=current_product.category.name)[:4]
+        customer = self.request.user
+        context["has_bought"] = False
+        if customer.username != "":
+            for item in customer.order_set.all():
+                for product in item.orderitem_set.all():
+                    if product.product == current_product:
+                        print(item.date)
+                        context["has_bought"] = True
+                        context["bought_date"] = item.date
         return context
 
 class CategoryPageView(TemplateView):
