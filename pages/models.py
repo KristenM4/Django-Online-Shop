@@ -30,6 +30,23 @@ class Product(models.Model):
     def discount_price(self):
         return round(self.price - (self.price * self.discount), 2)
 
+    
+class Review(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    text = models.TextField()
+    RATING_CHOICES = [
+    ("1", "1 - Junkyard dog"),
+    ("2", "2 - Sketchy"),
+    ("3", "3 - Average"),
+    ("4", "4 - Sick"),
+    ("5", "5 - Radical, dude!"),
+    ]
+    rating = models.CharField(
+        max_length=2,
+        choices=RATING_CHOICES,
+    )
+
 
 class Order(models.Model):
     date = models.DateField(auto_now_add=True)
