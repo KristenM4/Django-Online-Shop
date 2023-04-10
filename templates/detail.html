@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
+
 <!-- Product section-->
 {% block content %}
 <section class="pt-5" style="background-color: white;">
@@ -20,11 +22,36 @@
                         </button>
                     </a>
                 </div>
-                {% if user.is_authenticated %}
-                    {% if has_bought %}
-                        <p class="mt-2">You bought this item on {{ bought_date }}.</p>
-                    {% endif %}
+            </div>
+
+            <div class="col-md-8 mx-auto">
+            {% if object.review_set.all|length != 0 %}
+                <h2 class="fw-bolder mb-4 mt-5 display-6">Customer Reviews</h2>
+                {% for review in object.review_set.all %}
+                <div class="rounded col-lg-12 col-xl-10 p-4" style="background-color: #d2e7ff;">
+                    <p class="fw-bold mb-0">
+                        {{review.customer.username}}
+                        {% if review.customer == user %}
+                             (Your Review) 
+                        {% endif %}
+                    </p>
+                    <p class="fw-bold">{{review.rating}} / 5 stars</p>
+                    <p>{{review.text}}</p>
+                </div>
+                {% endfor %}
+            {% endif %}
+
+            {% if user.is_authenticated %}
+                    {% if has_bought and not has_reviewed %}
+                    <hr>
+                    <p class="mt-2">You bought this item on <b>{{ bought_date }}</b>. Let us know how you're getting on with it. Leave a review!</p>
+                        <form action="" method="POST" class="h-25">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <button class="btn btn-success" type="submit" name="create_review_button">Submit Review</button>
+                        </form>
                 {% endif %}
+            {% endif %}
             </div>
         </div>
     </div>

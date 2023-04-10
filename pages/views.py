@@ -1,15 +1,19 @@
+from django import forms
 from django.shortcuts import render, redirect
+from django.http import HttpResponseForbidden
+from django.views import View
+from django.views.generic import CreateView, FormView
 from django.views.generic.base import TemplateView
-from django.views.generic import CreateView
-from django.views.generic.detail import DetailView
+from django.views.generic.detail import DetailView, SingleObjectMixin
+from django.views.generic.edit import UpdateView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy, reverse
-from .models import Product, Order, OrderItem
-from accounts.models import CustomerAddress
 from cart.cart import Cart
 from decouple import config
 import smtplib
+from .models import Product, Order, OrderItem, Review
+from accounts.models import CustomerAddress
 
 # Create your views here.
 
@@ -26,6 +30,11 @@ class HomePageView(TemplateView):
 class AboutPageView(TemplateView):
     template_name = "about.html"
 
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ("rating", "text",)
+
 class DetailPageView(DetailView):
     model = Product
     template_name = "detail.html"
@@ -34,16 +43,67 @@ class DetailPageView(DetailView):
         context =  super().get_context_data(**kwargs)
         current_product = self.get_object()
         context["related"] = Product.objects.filter(category__name=current_product.category.name)[:4]
+        context["form"] = ReviewForm
         customer = self.request.user
         context["has_bought"] = False
+        context["has_reviewed"] = False
+        has_bought = False
+        has_reviewed = False
         if customer.username != "":
             for item in customer.order_set.all():
                 for product in item.orderitem_set.all():
                     if product.product == current_product:
-                        print(item.date)
                         context["has_bought"] = True
+                        has_bought = True
                         context["bought_date"] = item.date
+            if has_bought:
+                for review in customer.review_set.all():
+                    if current_product == review.product:
+                        context["has_reviewed"] = True
+                        has_reviewed = True
+                        break
+
         return context
+
+class DetailPagePostView(SingleObjectMixin, FormView):
+    model = Product
+    template_name = "detail.html"
+    form_class = ReviewForm
+
+    def post(self, request, *args, **kwargs):
+        customer = self.request.user
+        if customer.username == "":
+            return HttpResponseForbidden()
+        self.object = self.get_object()
+        return super().post(request, *args, **kwargs)
+    
+    def form_valid(self, form):
+        review = form.save(commit=False)
+        review.customer = self.request.user
+        review.product = self.object
+        review.save()
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        product = self.get_object()
+        return reverse("detail", kwargs={'slug': product.slug})
+
+
+class ProductDetailView(View):
+
+    def get(self, request, *args, **kwargs):
+        view = DetailPageView.as_view()
+        return view(request, *args, **kwargs)
+    
+    def post(self, request, *args, **kwargs):
+        if "create_review_button" in self.request.POST:
+            view = DetailPagePostView.as_view()
+            return view(request, *args, **kwargs)
+        elif "update_review_button" in self.request.POST:
+            pass
+        elif "delete_review_button" in self.request.POST:
+            pass
+
 
 class CategoryPageView(TemplateView):
     template_name = "cat.html"
