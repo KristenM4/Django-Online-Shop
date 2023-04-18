@@ -76,31 +76,61 @@ class DetailPagePostView(SingleObjectMixin, FormView):
             return HttpResponseForbidden()
         self.object = self.get_object()
         return super().post(request, *args, **kwargs)
-    
+
     def form_valid(self, form):
         review = form.save(commit=False)
-        review.customer = self.request.user
-        review.product = self.object
-        review.save()
+        if self.object.review_set.filter(customer=self.request.user):
+            user_review = self.object.review_set.filter(customer=self.request.user)[0]
+            user_review.rating = review.rating
+            user_review.text = review.text
+            user_review.save()
+        else:
+            review.customer = self.request.user
+            review.product = self.object
+            review.save()
         return super().form_valid(form)
-    
+
     def get_success_url(self):
         product = self.get_object()
         return reverse("detail", kwargs={'slug': product.slug})
 
 
+class DetailPageUpdateView(DetailView):
+    model = Product
+    template_name = "detail.html"
+    form_class = ReviewForm
+
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        current_product = self.get_object()
+        user_review = current_product.review_set.filter(customer=self.request.user)[0]
+        context["related"] = Product.objects.filter(category__name=current_product.category.name)[:4]
+        context["form"] = ReviewForm
+        context["update_form"] = ReviewForm(instance=user_review)
+        context["has_bought"] = True
+        context["has_reviewed"] = True
+        context["update_review"] = True
+
+        return context
+
+
 class ProductDetailView(View):
 
     def get(self, request, *args, **kwargs):
-        view = DetailPageView.as_view()
-        return view(request, *args, **kwargs)
-    
+        if "update_review_button" in self.request.GET:
+            view = DetailPageUpdateView.as_view()
+            return view(request, *args, **kwargs)
+        else:
+            view = DetailPageView.as_view()
+            return view(request, *args, **kwargs)
+
     def post(self, request, *args, **kwargs):
         if "create_review_button" in self.request.POST:
             view = DetailPagePostView.as_view()
             return view(request, *args, **kwargs)
         elif "update_review_button" in self.request.POST:
-            pass
+            view = DetailPagePostView.as_view()
+            return view(request, *args, **kwargs)
         elif "delete_review_button" in self.request.POST:
             pass
 
@@ -111,7 +141,7 @@ class CategoryPageView(TemplateView):
     def get(self, request, category):
         cat_items = Product.objects.filter(category__name=category.title())
         return render(request, "cat.html", {"category": cat_items})
-    
+
 
 @login_required(login_url="/accounts/login")
 def cart_add(request, id):
@@ -172,7 +202,7 @@ class AddressFormView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.customer = self.request.user
         return super().form_valid(form)
-    
+
     def get_success_url(self):
         return reverse('place_order',args=(self.object.id,))
 
@@ -196,7 +226,7 @@ class PlaceOrderView(DetailView):
             total_amt+= int(item['quantity'])*float(item['price'])
         context["total"] = total_amt
         return context
-    
+
     def post(self, request, *args, **kwargs):
         company_email = config("EMAIL_HOST_USER")
         company_pass = config("EMAIL_HOST_PASSWORD")

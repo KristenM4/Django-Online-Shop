@@ -26,18 +26,31 @@
 
             <div class="col-md-8 mx-auto">
             {% if object.review_set.all|length != 0 %}
-                <h2 class="fw-bolder mb-4 mt-5 display-6">Customer Reviews</h2>
+                <h2 class="fw-bolder mb-4 mt-5 display-6" id="reviews">Customer Reviews</h2>
                 {% for review in object.review_set.all %}
-                <div class="rounded col-lg-12 col-xl-10 p-4" style="background-color: #d2e7ff;">
-                    <p class="fw-bold mb-0">
-                        {{review.customer.username}}
-                        {% if review.customer == user %}
-                             (Your Review) 
+                    <div class="rounded col-lg-12 col-xl-10 p-4" style="background-color: #d2e7ff;">
+                        {% if review.customer == user and update_review %}
+                            <p class="fw-bold" id="change">Change Your Review</p>
+                            <form action="" method="POST">
+                                {% csrf_token %}
+                                {{ update_form|crispy }}
+                                <button class="btn btn-success" type="submit" name="update_review_button">Update Review</button>
+                            </form>
+                        {% else %}
+                            <p class="fw-bold mb-0 d-inline-flex">
+                                {{review.customer.username}}
+                                {% if review.customer == user %}
+                                    <i>(Your Review)</i>
+                                    <form action="#change" method="GET" class="d-inline-flex my-0 py-0">
+                                        <input type="hidden" name="update_review_id" value="{{review.id}}" class="my-0 py-0">
+                                        <button class="btn btn-sm d-inline-flex ms-2 my-0 p-0" type="submit" name="update_review_button" id="update_review_button">Edit</button>
+                                    </form>
+                                {% endif %}
+                            </p>
+                            <p class="fw-bold">{{review.rating}} / 5 stars</p>
+                            <p>{{review.text}}</p>
                         {% endif %}
-                    </p>
-                    <p class="fw-bold">{{review.rating}} / 5 stars</p>
-                    <p>{{review.text}}</p>
-                </div>
+                    </div>
                 {% endfor %}
             {% endif %}
 
