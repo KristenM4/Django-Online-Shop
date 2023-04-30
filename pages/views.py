@@ -114,11 +114,48 @@ class DetailPageUpdateView(DetailView):
         return context
 
 
+class DetailPageDeleteView(DetailView):
+    model = Product
+    template_name = "detail.html"
+    form_class = ReviewForm
+
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        current_product = self.get_object()
+        customer = self.request.user
+        user_review = current_product.review_set.filter(customer=self.request.user)[0]
+        if user_review.customer == self.request.user:
+            user_review.delete()
+        context["related"] = Product.objects.filter(category__name=current_product.category.name)[:4]
+        context["form"] = ReviewForm
+        context["has_bought"] = True
+        context["has_reviewed"] = False
+        context["delete_review"] = True
+        if customer.username != "":
+            for item in customer.order_set.all():
+                for product in item.orderitem_set.all():
+                    if product.product == current_product:
+                        context["has_bought"] = True
+                        has_bought = True
+                        context["bought_date"] = item.date
+            if has_bought:
+                for review in customer.review_set.all():
+                    if current_product == review.product:
+                        context["has_reviewed"] = True
+                        has_reviewed = True
+                        break
+
+        return context
+
+
 class ProductDetailView(View):
 
     def get(self, request, *args, **kwargs):
         if "update_review_button" in self.request.GET:
             view = DetailPageUpdateView.as_view()
+            return view(request, *args, **kwargs)
+        elif "delete_review_button" in self.request.GET:
+            view = DetailPageDeleteView.as_view()
             return view(request, *args, **kwargs)
         else:
             view = DetailPageView.as_view()

@@ -5,6 +5,11 @@
 {% block content %}
 <section class="pt-5" style="background-color: white;">
     <div class="container px-4 px-lg-5 my-5">
+        {% if delete_review %}
+            <div class="alert alert-primary alert-dismissible" role="alert">
+                Your review has been successfully deleted.
+            </div>
+        {% endif %}
         <div class="row gx-4 gx-lg-5 align-items-center">
             <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{ object.image.url }}" alt="{{ object.name }}" /></div>
             <div class="col-md-6">
@@ -44,6 +49,10 @@
                                     <form action="#change" method="GET" class="d-inline-flex my-0 py-0">
                                         <input type="hidden" name="update_review_id" value="{{review.id}}" class="my-0 py-0">
                                         <button class="btn btn-sm d-inline-flex ms-2 my-0 p-0" type="submit" name="update_review_button" id="update_review_button">Edit</button>
+                                    </form>
+                                    <form onclick="return confirm('Are you sure you want to delete your review?')" method="GET" class="d-inline-flex my-0 py-0">
+                                        <input type="hidden" name="delete_review_id" value="{{review.id}}" class="my-0 py-0">
+                                        <button class="btn btn-sm d-inline-flex ms-2 my-0 p-0" type="submit" name="delete_review_button" id="delete_review_button">Delete</button>
                                     </form>
                                 {% endif %}
                             </p>
