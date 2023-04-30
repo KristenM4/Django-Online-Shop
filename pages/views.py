@@ -8,14 +8,14 @@ from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import UpdateView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 from django.urls import reverse_lazy, reverse
+
 from cart.cart import Cart
 from decouple import config
 import smtplib
 from .models import Product, Order, OrderItem, Review
 from accounts.models import CustomerAddress
-
-# Create your views here.
 
 
 class HomePageView(TemplateView):
@@ -44,7 +44,15 @@ class DetailPageView(DetailView):
         current_product = self.get_object()
         context["related"] = Product.objects.filter(category__name=current_product.category.name)[:4]
         context["form"] = ReviewForm
+        context["review_list"] = current_product.review_set.all().order_by("-id")
+        # review pagination
+        review_list = current_product.review_set.all().order_by("-id")
+        paginator = Paginator(review_list, 5)
         customer = self.request.user
+        page_number = self.request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+        context["page_obj"] = page_obj
+        # for loop checks if user has bought/reviewed the item
         context["has_bought"] = False
         context["has_reviewed"] = False
         has_bought = False
@@ -106,6 +114,15 @@ class DetailPageUpdateView(DetailView):
         user_review = current_product.review_set.filter(customer=self.request.user)[0]
         context["related"] = Product.objects.filter(category__name=current_product.category.name)[:4]
         context["form"] = ReviewForm
+        context["review_list"] = current_product.review_set.all().order_by("-id")
+        # review pagination
+        review_list = current_product.review_set.all().order_by("-id")
+        paginator = Paginator(review_list, 5)
+        customer = self.request.user
+        page_number = self.request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+        context["page_obj"] = page_obj
+
         context["update_form"] = ReviewForm(instance=user_review)
         context["has_bought"] = True
         context["has_reviewed"] = True
@@ -128,9 +145,18 @@ class DetailPageDeleteView(DetailView):
             user_review.delete()
         context["related"] = Product.objects.filter(category__name=current_product.category.name)[:4]
         context["form"] = ReviewForm
+        context["delete_review"] = True
+        context["review_list"] = current_product.review_set.all().order_by("-id")
+        # review pagination
+        review_list = current_product.review_set.all().order_by("-id")
+        paginator = Paginator(review_list, 5)
+        customer = self.request.user
+        page_number = self.request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+        context["page_obj"] = page_obj
+        # for loop checks if user has bought/reviewed the item
         context["has_bought"] = True
         context["has_reviewed"] = False
-        context["delete_review"] = True
         if customer.username != "":
             for item in customer.order_set.all():
                 for product in item.orderitem_set.all():
@@ -169,7 +195,8 @@ class ProductDetailView(View):
             view = DetailPagePostView.as_view()
             return view(request, *args, **kwargs)
         elif "delete_review_button" in self.request.POST:
-            pass
+            view = DetailPageDeleteView.as_view()
+            return view(request, *args, **kwargs)
 
 
 class CategoryPageView(TemplateView):
