@@ -6,4 +6,6 @@ from apis.views import ProductViewSet
 router = SimpleRouter()
 router.register("", ProductViewSet, basename="products")
 
+app_name = "products"
+
 urlpatterns = router.urls
