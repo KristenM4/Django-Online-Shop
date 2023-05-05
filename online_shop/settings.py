@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.core.mail',
     # 3rd party
+    'rest_framework',
     'crispy_forms',
     'crispy_bootstrap5',
     'cart',
@@ -177,3 +178,9 @@ MEDIAFILES_FOLDER = "media"
 
 STATICFILES_STORAGE = "custom_storages.StaticFileStorage"
 DEFAULT_FILE_STORAGE = "custom_storages.MediaFileStorage"
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
+    ]
+}
