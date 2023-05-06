@@ -26,11 +26,14 @@ class Product(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.price} - {self.category}"
-    
+
     def discount_price(self):
         return round(self.price - (self.price * self.discount), 2)
 
-    
+    def link(self):
+        return f"http://seawolf-shop-5-env-1.eba-xzwhb5mc.ap-southeast-2.elasticbeanstalk.com/product/{self.slug}"
+
+
 class Review(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
