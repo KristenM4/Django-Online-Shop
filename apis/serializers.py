@@ -14,6 +14,14 @@ class ProductSerializer(serializers.ModelSerializer):
             "category",
             "price",
             "stock_quantity",
+            "link",
         )
         read_only_fields = ["id"]
+        model = Product
+
+
+class ProductDetailSerializer(ProductSerializer):
+    """Serializer for product detail view"""
+    class Meta:
+        fields = ProductSerializer.Meta.fields + ("description",)
         model = Product
