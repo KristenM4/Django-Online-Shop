@@ -20,7 +20,7 @@ Sea Wolf API
             </p>
             <p>
                 With no inputs, it will return a list of all products in our database.
-                For information on a specific product, use the product's id number as an input.
+                For information on a specific product, place the product's id at the end of the endpoint.
             </p>
             <hr>
             <h4 class="fw-bold mt-3">JSON</h4>
@@ -28,19 +28,20 @@ Sea Wolf API
             <h4 class="fw-bold">Django REST Framework</h4>
             <p><a href="http://seawolf-shop-5-env-1.eba-xzwhb5mc.ap-southeast-2.elasticbeanstalk.com/api/?format=api" class="link-primary">http://seawolf-shop-5-env-1.eba-xzwhb5mc.ap-southeast-2.elasticbeanstalk.com/api/?format=api</a></p>
             <h4 class="mt-4">Example Code using Python</h4>
-            <pre style="background-color: white;" class="col-md-10 ps-0"><code>
-                import urllib2
-                import json
+            <pre style="background-color: white;" class="col-md-10"><code>
+    <b>import</b> requests
+    <b>import</b> json
 
-                link = "http://seawolf-shop-5-env-1.eba-xzwhb5mc.ap-southeast-2.elasticbeanstalk.com/api/?format=json"
+    ENDPOINT = "http://seawolf-shop-5-env-1.eba-xzwhb5mc.ap-southeast-2.elasticbeanstalk.com/api/"
+    PRODUCT_ID = 1
+    PRODUCT_LINK = f"{ENDPOINT}{PRODUCT_ID}"
 
-                req = urllib2.Request(link)
-                response = urllib2.urlopen(req)
+    parameters = {"format":"json"}
+    response = requests.get(url=PRODUCT_LINK, params=parameters)
+    response.raise_for_status()
+    data = response.json()
 
-                obj = json.loads(response.read())
-
-                print(len(obj))
-                print(obj[0]["name"])
+    print(data)
             </code></pre>
         </div>
     </div>
