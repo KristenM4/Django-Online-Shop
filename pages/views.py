@@ -323,3 +323,7 @@ class PlaceOrderView(DetailView):
 
 class OrderSuccessView(TemplateView):
     template_name = "order_success.html"
+
+
+class ApiInfoView(TemplateView):
+    template_name = "api_info.html"

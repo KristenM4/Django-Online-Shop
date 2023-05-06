@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Sea Wolf API
+{% endblock title %}
+
+{% block content %}
+<section class="h-100" style="background-color: #eee;" id="body-section">
+    <div class="container h-100 py-5">
+        <div class="col-xl-10 col-xs-12 mx-auto mb-5">
+            <h4 class="display-4 mb-3">The Sea Wolf API</h4>
+            <h6 class="display-6 mb-5">Overview and Quick Start Guide</h6>
+            <p class="lead mb-3">
+                <em>Stay up to date with The Seawolf's latest products!</em>
+            </p>
+            <p>
+                This is a web API that returns information about all the products that we offer.
+                This API only accepts <b>GET Requests</b> for non-admin users.
+            </p>
+            <p>
+                With no inputs, it will return a list of all products in our database.
+                For information on a specific product, use the product's id number as an input.
+            </p>
+            <hr>
+            <h4 class="fw-bold mt-3">JSON</h4>
+            <p><a href="http://seawolf-shop-5-env-1.eba-xzwhb5mc.ap-southeast-2.elasticbeanstalk.com/api/?format=json" class="link-primary">http://seawolf-shop-5-env-1.eba-xzwhb5mc.ap-southeast-2.elasticbeanstalk.com/api/?format=json</a></p>
+            <h4 class="fw-bold">Django REST Framework</h4>
+            <p><a href="http://seawolf-shop-5-env-1.eba-xzwhb5mc.ap-southeast-2.elasticbeanstalk.com/api/?format=api" class="link-primary">http://seawolf-shop-5-env-1.eba-xzwhb5mc.ap-southeast-2.elasticbeanstalk.com/api/?format=api</a></p>
+            <h4 class="mt-4">Example Code using Python</h4>
+            <pre style="background-color: white;" class="col-md-10 ps-0"><code>
+                import urllib2
+                import json
+
+                link = "http://seawolf-shop-5-env-1.eba-xzwhb5mc.ap-southeast-2.elasticbeanstalk.com/api/?format=json"
+
+                req = urllib2.Request(link)
+                response = urllib2.urlopen(req)
+
+                obj = json.loads(response.read())
+
+                print(len(obj))
+                print(obj[0]["name"])
+            </code></pre>
+        </div>
+    </div>
+</section>
+{% endblock content %}
