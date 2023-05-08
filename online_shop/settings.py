@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.core.mail',
     # 3rd party
     'rest_framework',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
     'crispy_forms',
     'crispy_bootstrap5',
     'cart',
@@ -182,5 +184,10 @@ DEFAULT_FILE_STORAGE = "custom_storages.MediaFileStorage"
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticatedOrReadOnly",
-    ]
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+    ],
+
 }
