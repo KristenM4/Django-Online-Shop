@@ -27,6 +27,9 @@
                         </button>
                     </a>
                 </div>
+                    {% if not user.is_authenticated %}
+                        Please <a href="{% url 'login' %}" style="font-size: 1rem;">log in</a> or <a href="{% url 'signup' %}" style="font-size: 1rem;">create an account</a> to add items to your cart.
+                    {% endif %}
             </div>
 
             <div class="col-md-8 mx-auto">
