@@ -346,10 +346,17 @@ class PlaceOrderView(DetailView):
         try:
             response = requests.request("POST", url=endpoint, headers=headers, data=payload)
             response = response.json()
-            context["delivery_total"] = response["rate_response"]["rates"][0]["shipping_amount"]["amount"]
-            context["delivery_currency"] = response["rate_response"]["rates"][0]["shipping_amount"]["currency"].upper()
-            context["delivery_days"] = response["rate_response"]["rates"][0]["delivery_days"]
-            context["service_type"] = response["rate_response"]["rates"][0]["service_type"]
+            print(response)
+            try:
+                context["delivery_total"] = response["rate_response"]["rates"][0]["shipping_amount"]["amount"]
+                context["delivery_currency"] = response["rate_response"]["rates"][0]["shipping_amount"]["currency"].upper()
+                context["delivery_days"] = response["rate_response"]["rates"][0]["delivery_days"]
+                context["service_type"] = response["rate_response"]["rates"][0]["service_type"]
+            except IndexError:
+                context["delivery_total"] = response["rate_response"]["invalid_rates"][0]["shipping_amount"]["amount"]
+                context["delivery_currency"] = response["rate_response"]["invalid_rates"][0]["shipping_amount"]["currency"].upper()
+                context["delivery_days"] = response["rate_response"]["invalid_rates"][0]["delivery_days"]
+                context["service_type"] = response["rate_response"]["invalid_rates"][0]["service_type"]
         except TypeError:
             context["delivery_total"] = 25
             context["delivery_currency"] = "USD"
