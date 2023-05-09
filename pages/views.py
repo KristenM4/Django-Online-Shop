@@ -287,15 +287,78 @@ class PlaceOrderView(DetailView):
 
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
+        object = self.get_object()
         total_amt = 0
+        total_weight = 0
         for id,item in self.request.session['cart'].items():
+            product = Product.objects.get(name=item["name"])
+            total_weight += int(product.weight_in_oz())
             total_amt+= int(item['quantity'])*float(item['price'])
         context["total"] = total_amt
         api_key = config("SHIPENGINE_API_KEY")
-        endpoint = "api.shipengine.com/v1/rates"
+        endpoint = "https://api.shipengine.com/v1/rates"
+        payload = json.dumps({
+            "rate_options": {
+                "carrier_ids": [
+                "se-4697523"
+                ]
+            },
+            "shipment": {
+                "validate_address": "no_validation",
+                "ship_to": {
+                    "name": f"{self.request.user.first_name} {self.request.user.last_name}",
+                    "phone": "222-333-4444",
+                    "company_name": "",
+                    "address_line1": f"{object.address_one} {object.address_two}",
+                    "city_locality": object.city,
+                    "state_province": object.state,
+                    "postal_code": object.zipcode,
+                    "country_code": str(object.country),
+                    "address_residential_indicator": "no"
+                },
+                "ship_from": {
+                    "name": "Sea Wolf Surf and Dive Shop",
+                    "phone": "222-333-4444",
+                    "company_name": "The Sea Wolf",
+                    "address_line1": "84-521 Farrington Highway",
+                    "city_locality": "Waianae",
+                    "state_province": "HI",
+                    "postal_code": "96792",
+                    "country_code": "US",
+                    "address_residential_indicator": "no"
+                },
+                "packages": [
+                {
+                    "package_code": "package",
+                    "weight": {
+                        "value": total_weight,
+                        "unit": "ounce"
+                    }
+                }
+                ]
+            },
+        })
+        headers = {
+            "Host": "api.shipengine.com",
+            "API-Key": api_key,
+            "Content-Type": "application/json"
+        }
+        try:
+            response = requests.request("POST", url=endpoint, headers=headers, data=payload)
+            response = response.json()
+            context["delivery_total"] = response["rate_response"]["rates"][0]["shipping_amount"]["amount"]
+            context["delivery_currency"] = response["rate_response"]["rates"][0]["shipping_amount"]["currency"].upper()
+            context["delivery_days"] = response["rate_response"]["rates"][0]["delivery_days"]
+        except TypeError:
+            context["delivery_total"] = 25
+            context["delivery_currency"] = "USD"
+            context["delivery_days"] = 5
+        context["order_total"] = total_amt + context["delivery_total"]
         return context
 
     def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        context = self.get_context_data(**kwargs)
         company_email = config("EMAIL_HOST_USER")
         company_pass = config("EMAIL_HOST_PASSWORD")
         address = CustomerAddress.objects.get(pk=self.kwargs["pk"])
@@ -307,13 +370,16 @@ class PlaceOrderView(DetailView):
             new_item = OrderItem.objects.create(product=product, quantity=item["quantity"], order=new_order)
 
         items_message = ""
-        items_total = 0
         for item in new_order.orderitem_set.all():
             items_message += f"{item}\n"
-            items_total += round(item.product.price * item.quantity, 2)
+        delivery_total = round(context["delivery_total"], 2)
+        delivery_currency = context["delivery_currency"]
+        delivery_days = context["delivery_days"]
+        delivery_message = f"Delivery cost: {delivery_total} {delivery_currency}\nEstimated delivery time: {delivery_days} business days"
+        full_total = round(context["order_total"], 2)
 
         with smtplib.SMTP("smtp.gmail.com", 587) as connection:
-            message = f"Thanks for the order, {customer.first_name}! Order details are below:\n\n{new_order}\n{items_message}\nOrder Total: ${items_total}"
+            message = f"Thanks for the order, {customer.first_name}! Order details are below:\n\n{new_order}\n{items_message}\n{delivery_message}\n\nOrder Total: ${full_total}"
             connection.starttls()
             connection.login(user=company_email, password=company_pass)
             final_message = f"Subject: Thank you for your order!\n\n{message}"

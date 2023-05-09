@@ -25,8 +25,13 @@
                 </div>
             </div>
         {% endfor %}
-        <h4 class="mt-3">Order Total: ${{total|floatformat:2}}</h4>
-        <div class="col-10 d-flex">
+        <h5 class="mt-3">Order Total: ${{total|floatformat:2}}</h5>
+        <hr>
+        <h5>Delivery Details:</h5>
+        <p>Delivery Cost: {{delivery_total|floatformat:2}} {{delivery_currency}}</p>
+        <p>Estimated Delivery Time: {{delivery_days}} business days</p>
+        <h4 class="mt-3"><b>Final Order Total: ${{order_total|floatformat:2}}</b></h4>
+        <div class="col-sm-10 d-flex">
             <div class="col-5">
             <h5 class="mt-5 mb-3">Postal Address</h5>
             </div>
@@ -34,14 +39,14 @@
             <h5 class="mt-5 mb-3">Personal Details</h5>
             </div>
         </div>
-        <div class="col-10 d-flex">
-            <div class="p-3 bg-white rounded pe-4 col-5">
+        <div class="col-md-10 d-flex">
+            <div class="p-3 bg-white rounded pe-4 col-sm-5">
                 <p>{{object.address_one}}</p>
                 <p>{{object.address_two}}</p>
                 <p>{{object.city}}, {{object.state}} {{object.zipcode}}</p>
                 <p>{{object.country}}</p>
             </div>
-            <div class="p-3 bg-white rounded pe-4 col-5">
+            <div class="p-3 bg-white rounded pe-4 col-sm-5">
                 <p>Name: {{user.first_name}} {{user.last_name}}</p>
                 <p>Email: {{user.email}}</p>
                 <p>Date of Birth: {{user.date_of_birth}}</p>
