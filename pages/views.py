@@ -349,10 +349,12 @@ class PlaceOrderView(DetailView):
             context["delivery_total"] = response["rate_response"]["rates"][0]["shipping_amount"]["amount"]
             context["delivery_currency"] = response["rate_response"]["rates"][0]["shipping_amount"]["currency"].upper()
             context["delivery_days"] = response["rate_response"]["rates"][0]["delivery_days"]
+            context["service_type"] = response["rate_response"]["rates"][0]["service_type"]
         except TypeError:
             context["delivery_total"] = 25
             context["delivery_currency"] = "USD"
             context["delivery_days"] = 5
+            context["service_type"] = "USPS"
         context["order_total"] = total_amt + context["delivery_total"]
         return context
 
@@ -375,7 +377,8 @@ class PlaceOrderView(DetailView):
         delivery_total = round(context["delivery_total"], 2)
         delivery_currency = context["delivery_currency"]
         delivery_days = context["delivery_days"]
-        delivery_message = f"Delivery cost: {delivery_total} {delivery_currency}\nEstimated delivery time: {delivery_days} business days"
+        carrier = context["service_type"]
+        delivery_message = f"Delivery cost: {delivery_total} {delivery_currency}\nEstimated delivery time: {delivery_days} business days\nCarrier: {carrier}"
         full_total = round(context["order_total"], 2)
 
         with smtplib.SMTP("smtp.gmail.com", 587) as connection:
