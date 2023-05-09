@@ -13,6 +13,8 @@ from django.urls import reverse_lazy, reverse
 
 from cart.cart import Cart
 from decouple import config
+import requests
+import json
 import smtplib
 from .models import Product, Order, OrderItem, Review
 from accounts.models import CustomerAddress
@@ -289,6 +291,8 @@ class PlaceOrderView(DetailView):
         for id,item in self.request.session['cart'].items():
             total_amt+= int(item['quantity'])*float(item['price'])
         context["total"] = total_amt
+        api_key = config("SHIPENGINE_API_KEY")
+        endpoint = "api.shipengine.com/v1/rates"
         return context
 
     def post(self, request, *args, **kwargs):
