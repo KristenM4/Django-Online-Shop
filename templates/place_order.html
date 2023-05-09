@@ -31,7 +31,11 @@
         <h6 class="text-muted">Note: All products ship from our store in Waianae, Hawaii. To ensure products arrive undamaged, we use first class shipping!</h6>
         <p class="mb-1">Carrier: {{service_type}}</p>
         <p class="mb-1">Delivery Cost: {{delivery_total|floatformat:2}} {{delivery_currency}}</p>
-        <p>Estimated Delivery Time: {{delivery_days}} business days</p>
+        {% if delivery_days != None %}
+            <p>Estimated Delivery Time: {{delivery_days}} business days</p>
+        {% elif delivery_days == None %}
+            <p>Delivery Date Estimate Unavailable</p>
+        {% endif %}
         <h4 class="mt-3"><b>Final Order Total: ${{order_total|floatformat:2}}</b></h4>
         <div class="col-sm-10 d-flex">
             <div class="col-5">

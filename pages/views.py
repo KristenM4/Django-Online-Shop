@@ -385,7 +385,10 @@ class PlaceOrderView(DetailView):
         delivery_currency = context["delivery_currency"]
         delivery_days = context["delivery_days"]
         carrier = context["service_type"]
-        delivery_message = f"Delivery cost: {delivery_total} {delivery_currency}\nEstimated delivery time: {delivery_days} business days\nCarrier: {carrier}"
+        if delivery_days != None:
+            delivery_message = f"Delivery cost: {delivery_total} {delivery_currency}\nEstimated delivery time: {delivery_days} business days\nCarrier: {carrier}"
+        else:
+            delivery_message = f"Delivery cost: {delivery_total} {delivery_currency}\nEstimated delivery time is unavailable.\nCarrier: {carrier}"
         full_total = round(context["order_total"], 2)
 
         with smtplib.SMTP("smtp.gmail.com", 587) as connection:
