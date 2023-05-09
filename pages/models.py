@@ -33,6 +33,18 @@ class Product(models.Model):
     def link(self):
         return f"http://seawolf-shop-5-env-1.eba-xzwhb5mc.ap-southeast-2.elasticbeanstalk.com/product/{self.slug}"
 
+    def weight_in_oz(self):
+        weights = {
+            "Surfboards": 112,
+            "Snorkels": 16,
+            "Fins": 48,
+            "Masks": 32
+        }
+        if str(self.category) in weights.keys():
+            return weights[str(self.category)]
+        else:
+            return 48
+
 
 class Review(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
