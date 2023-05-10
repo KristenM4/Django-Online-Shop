@@ -11,7 +11,7 @@ class CustomerAdmin(UserAdmin):
     model = Customer
     list_display = ["email", "date_of_birth", "is_staff",]
     fieldsets = UserAdmin.fieldsets + ((None, {"fields": ("date_of_birth",)}),)
-    add_fieldsets = UserAdmin.add_fieldsets + ((None, {"fields": ("date_of_birth",)}),)
+    add_fieldsets = UserAdmin.add_fieldsets + ((None, {"fields": ("email", "first_name", "last_name", "date_of_birth")}),)
 
 class CustomerAddressAdmin(admin.ModelAdmin):
     list_display = ("customer", "address_one", "address_two", "city", "state", "zipcode", "country",)

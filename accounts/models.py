@@ -8,6 +8,9 @@ from django.contrib.auth.models import PermissionsMixin
 
 class Customer(AbstractUser, PermissionsMixin):
     date_of_birth = models.DateField(null=True, blank=True)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    email = models.EmailField()
 
 
 class CustomerAddress(models.Model):
