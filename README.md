@@ -9,6 +9,7 @@ This website features:
 * Products and categories
 * A callable REST API that returns product information
 * Cart and checkout process
+* Shipping time/cost estimate using the ShipEngine API
 * Product Reviews
 * Orders and order history
 
