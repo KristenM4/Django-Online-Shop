@@ -67,6 +67,9 @@ class Order(models.Model):
     date = models.DateField(auto_now_add=True)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     address = models.ForeignKey(CustomerAddress, on_delete=models.PROTECT, null=True)
+    delivery_cost = models.DecimalField(decimal_places=2, max_digits=10, default=0, null=True)
+    delivery_carrier = models.CharField(max_length=100, null=True)
+    delivery_days_estimate = models.IntegerField(null=True)
 
     def __str__(self):
         return f"Order Number: {self.id}\nDate: {self.date}\nName: {self.customer.first_name} {self.customer.last_name}\nEmail: {self.customer.email}\nAddress: {self.address}\n"

@@ -368,12 +368,22 @@ class PlaceOrderView(DetailView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         context = self.get_context_data(**kwargs)
+        delivery_currency = context["delivery_currency"]
+        delivery_days = context["delivery_days"]
+        carrier = context["service_type"]
+        delivery_total = round(context["delivery_total"], 2)
         company_email = config("EMAIL_HOST_USER")
         company_pass = config("EMAIL_HOST_PASSWORD")
         address = CustomerAddress.objects.get(pk=self.kwargs["pk"])
         customer = self.request.user
 
-        new_order = Order.objects.create(customer=customer, address=address)
+        new_order = Order.objects.create(
+            customer=customer,
+            address=address,
+            delivery_cost=delivery_total,
+            delivery_carrier=carrier,
+            delivery_days_estimate=delivery_days,
+        )
         for id,item in self.request.session["cart"].items():
             product = Product.objects.get(name=item["name"])
             new_item = OrderItem.objects.create(product=product, quantity=item["quantity"], order=new_order)
@@ -381,10 +391,6 @@ class PlaceOrderView(DetailView):
         items_message = ""
         for item in new_order.orderitem_set.all():
             items_message += f"{item}\n"
-        delivery_total = round(context["delivery_total"], 2)
-        delivery_currency = context["delivery_currency"]
-        delivery_days = context["delivery_days"]
-        carrier = context["service_type"]
         if delivery_days != None:
             delivery_message = f"Delivery cost: {delivery_total} {delivery_currency}\nEstimated delivery time: {delivery_days} business days\nCarrier: {carrier}"
         else:
