@@ -36,7 +36,7 @@
             {% if review_list|length != 0 %}
                 <h2 class="fw-bolder mb-4 mt-5 display-6" id="reviews">Customer Reviews</h2>
                 {% for review in page_obj %}
-                    <div class="rounded col-lg-12 col-xl-10 p-4 border border-white" style="background-color: #d2e7ff;">
+                    <div class="rounded col-lg-12 col-xl-10 p-4 border border-white" style="background-color: #EDFFFE;">
                         {% if review.customer == user and update_review %}
                             <p class="fw-bold" id="change">Change Your Review</p>
                             <form action="" method="POST">

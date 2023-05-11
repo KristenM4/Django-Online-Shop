@@ -21,26 +21,24 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-seawolf">
         <div class="container px-4 px-lg-5">
             <a class="navbar-brand" href="/">The Sea Wolf</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link seawolf-active" aria-current="page" href="{% url 'home' %}">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <!-- <li><a class="dropdown-item" href="#!">All Products</a></li>
-                            <li><hr class="dropdown-divider" /></li> -->
                             <li><a class="dropdown-item" href="{% url 'category' 'surfboards' %}">Surfboards</a></li>
                             <li><a class="dropdown-item" href="{% url 'category' 'Snorkels' %}">Snorkels</a></li>
                             <li><a class="dropdown-item" href="{% url 'category' 'Fins' %}">Fins</a></li>
                             <li><a class="dropdown-item" href="{% url 'category' 'Masks' %}">Masks</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item"><a class="nav-link active" href="{% url 'api-info' %}">API</a></li>
+                    <li class="nav-item"><a class="nav-link seawolf-active" href="{% url 'api-info' %}">API</a></li>
                 </ul>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 ms-lg-4">
                     {% if user.is_authenticated %}
@@ -53,7 +51,7 @@
                     <li class="nav-item">
                     <form class="d-flex">
                         <a href="{% url 'cart_detail' %}">
-                            <button class="btn btn-outline-light ms-lg-1" type="button" onclick=location.href='{% url 'cart_detail' %}'>
+                            <button class="btn btn-outline-light cart-text ms-lg-1" type="button" onclick=location.href='{% url 'cart_detail' %}'>
                                 <i class="bi-cart-fill me-1"></i>
                                 Cart
                                 <span class="badge bg-dark text-white ms-1 rounded-pill"> {{request.session.cart|length}}</span>
@@ -69,8 +67,8 @@
 {% endblock content %}
 {% block footer %}
     <!-- Footer-->
-    <footer class="py-5 bg-dark mt-auto">
-        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Kristen Martin 2023</p></div>
+    <footer class="py-5 mt-auto footer-seawolf">
+        <div class="container"><p class="m-0 text-center">Copyright &copy; Kristen Martin 2023</p></div>
     </footer>
     <!-- Bootstrap JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>

@@ -10,6 +10,37 @@ p, a {
     height: 100%;
 }
 
+.navbar-seawolf,
+.footer-seawolf,
+.dropdown-menu {
+    background-color: #00424F;
+}
+
+.navbar-seawolf .navbar-brand,
+.navbar-seawolf .navbar-text,
+.navbar-seawolf .nav-item,
+.navbar-seawolf .nav-link,
+.navbar-seawolf .dropdown-item,
+.navbar-seawolf .cart-text,
+.footer-seawolf {
+    color: #CEFFFD;
+}
+
+.navbar-seawolf .dropdown-item:hover {
+    background-color: #CEFFFD;
+    color: #00424F;
+}
+
+.navbar-seawolf .navbar-toggler-icon,
+.navbar-seawolf .navbar-toggler {
+    border-color: #CEFFFD;
+}
+
+
+.navbar-seawolf .seawolf-active {
+    color: #EDFFFE;
+}
+
 #main-header {
     background-repeat: no-repeat;
     background-size: cover;
