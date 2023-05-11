@@ -7,7 +7,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .forms import CustomerCreationForm
 from .models import CustomerAddress
-# Create your views here.
 
 
 class SignUpView(CreateView):
@@ -15,12 +14,13 @@ class SignUpView(CreateView):
     success_url = reverse_lazy("signup_success")
     template_name = "registration/signup.html"
 
+
 class SignupSuccessView(TemplateView):
-    template_name = "signup_success.html"
+    template_name = "account/signup_success.html"
 
 
 class AccountProfileView(LoginRequiredMixin, TemplateView):
-    template_name = "account_profile.html"
+    template_name = "account/account_profile.html"
 
 
 def delete_address(request, id):
@@ -34,7 +34,7 @@ def delete_address(request, id):
 
 class NewAddressView(LoginRequiredMixin, CreateView):
     model = CustomerAddress
-    template_name = "new_address.html"
+    template_name = "account/new_address.html"
     success_url = reverse_lazy("account_profile")
     fields = ("address_one", "address_two", "city", "state", "zipcode", "country",)
 
