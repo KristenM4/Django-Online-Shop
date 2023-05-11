@@ -265,7 +265,7 @@ def cart_detail(request):
 
 
 class AddressFormView(LoginRequiredMixin, CreateView):
-    template_name = "address.html"
+    template_name = "order/address.html"
     model = CustomerAddress
     fields = ("address_one", "address_two", "city", "state", "zipcode", "country",)
 
@@ -288,7 +288,7 @@ class AddressFormView(LoginRequiredMixin, CreateView):
 class PlaceOrderView(DetailView):
     # Gets shipping estimate, creates order object, sends customer email with order details
     model = CustomerAddress
-    template_name = "place_order.html"
+    template_name = "order/place_order.html"
 
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
@@ -417,4 +417,4 @@ class PlaceOrderView(DetailView):
 
 
 class OrderSuccessView(TemplateView):
-    template_name = "order_success.html"
+    template_name = "order/order_success.html"
