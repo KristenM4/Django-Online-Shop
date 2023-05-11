@@ -1,10 +1,9 @@
 from django.contrib import admin
 from .models import Product, Category, Order, OrderItem, Review
 
-# Register your models here.
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ("name","price", "image", "stock_quantity", 
+    list_display = ("name","price", "image", "stock_quantity",
                     "category", "description", "discount", "slug",)
     list_filter = ("category", "discount", "stock_quantity",)
     prepopulated_fields = {"slug": ("name",)}

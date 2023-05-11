@@ -3,7 +3,6 @@ from django.db.models import Value
 from django.urls import reverse
 from accounts.models import Customer, CustomerAddress
 
-# Create your models here.
 
 class Category(models.Model):
     name = models.CharField(max_length=50)

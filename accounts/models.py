@@ -3,8 +3,6 @@ from django.contrib.auth.models import AbstractUser
 from django_countries.fields import CountryField
 from django.contrib.auth.models import PermissionsMixin
 
-# Create your models here.
-
 
 class Customer(AbstractUser, PermissionsMixin):
     date_of_birth = models.DateField(null=True, blank=True)

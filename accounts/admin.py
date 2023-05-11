@@ -3,7 +3,6 @@ from django.contrib.auth.admin import UserAdmin
 from .forms import CustomerCreationForm, CustomerChangeForm
 from .models import Customer, CustomerAddress
 
-# Register your models here.
 
 class CustomerAdmin(UserAdmin):
     add_form = CustomerCreationForm
