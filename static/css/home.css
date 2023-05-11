@@ -11,8 +11,7 @@ p, a {
 }
 
 .navbar-seawolf,
-.footer-seawolf,
-.dropdown-menu {
+.footer-seawolf {
     background-color: #00424F;
 }
 
@@ -26,14 +25,28 @@ p, a {
     color: #CEFFFD;
 }
 
-.navbar-seawolf .dropdown-item:hover {
+.navbar-seawolf .dropdown-menu {
     background-color: #CEFFFD;
+}
+
+.navbar-seawolf .dropdown-item {
     color: #00424F;
 }
 
+.navbar-seawolf .dropdown-item:hover {
+    background-color: #00424F;
+    color: #CEFFFD;
+}
+
 .navbar-seawolf .navbar-toggler-icon,
-.navbar-seawolf .navbar-toggler {
+.navbar-seawolf .navbar-toggler,
+.navbar-seawolf .cart-text {
     border-color: #CEFFFD;
+}
+
+.navbar-seawolf .cart-text:hover {
+    color: #00424F;
+    border-color: #00424F;
 }
 
 
