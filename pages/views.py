@@ -2,7 +2,7 @@ from django import forms
 from django.shortcuts import render, redirect
 from django.http import HttpResponseForbidden
 from django.views import View
-from django.views.generic import CreateView, FormView
+from django.views.generic import CreateView, FormView, ListView
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import UpdateView
@@ -20,14 +20,12 @@ from .models import Product, Order, OrderItem, Review
 from accounts.models import CustomerAddress
 
 
-class HomePageView(TemplateView):
+class HomePageView(ListView):
     template_name = "home.html"
+    model = Product
+    context_object_name = "products"
+    queryset = Product.objects.all().order_by("slug")[:8]
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        all_products = Product.objects.all().order_by("slug")[:8]
-        context["products"] = all_products
-        return context
 
 class AboutPageView(TemplateView):
     template_name = "about.html"
