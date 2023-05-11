@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import Value
+from django.urls import reverse
 from accounts.models import Customer, CustomerAddress
 
 # Create your models here.
@@ -30,8 +31,11 @@ class Product(models.Model):
     def discount_price(self):
         return round(self.price - (self.price * self.discount), 2)
 
+    def get_absolute_url(self):
+        return reverse("detail", args=[str(self.slug)])
+
     def link(self):
-        return f"http://seawolf-shop-5-env-1.eba-xzwhb5mc.ap-southeast-2.elasticbeanstalk.com/product/{self.slug}"
+        return reverse("detail", args=[str(self.slug)])
 
     def weight_in_oz(self):
         weights = {
