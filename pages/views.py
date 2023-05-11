@@ -1,22 +1,21 @@
-from django import forms
 from django.shortcuts import render, redirect
 from django.http import HttpResponseForbidden
 from django.views import View
 from django.views.generic import CreateView, FormView, ListView
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView, SingleObjectMixin
-from django.views.generic.edit import UpdateView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse
 
 from cart.cart import Cart
 from decouple import config
 import requests
 import json
 import smtplib
-from .models import Product, Order, OrderItem, Review
+from .forms import ReviewForm
+from .models import Product, Order, OrderItem
 from accounts.models import CustomerAddress
 
 
@@ -30,10 +29,21 @@ class HomePageView(ListView):
 class AboutPageView(TemplateView):
     template_name = "about.html"
 
-class ReviewForm(forms.ModelForm):
-    class Meta:
-        model = Review
-        fields = ("rating", "text",)
+
+class ApiInfoView(TemplateView):
+    template_name = "api_info.html"
+
+
+class CategoryPageView(TemplateView):
+    template_name = "cat.html"
+
+    def get(self, request, category):
+        cat_items = Product.objects.filter(category__name=category.title())
+        return render(request, "cat.html", {"category": cat_items})
+
+
+# Views for handling product detail page, including product reviews
+
 
 class DetailPageView(DetailView):
     model = Product
@@ -199,13 +209,7 @@ class ProductDetailView(View):
             return view(request, *args, **kwargs)
 
 
-class CategoryPageView(TemplateView):
-    template_name = "cat.html"
-
-    def get(self, request, category):
-        cat_items = Product.objects.filter(category__name=category.title())
-        return render(request, "cat.html", {"category": cat_items})
-
+# Cart functions
 
 @login_required(login_url="/accounts/login")
 def cart_add(request, id):
@@ -257,6 +261,8 @@ def cart_detail(request):
     else:
         return render(request, 'cart_detail.html', {'total': total_amt})
 
+# Views for order placement and checkout
+
 
 class AddressFormView(LoginRequiredMixin, CreateView):
     template_name = "address.html"
@@ -280,6 +286,7 @@ class AddressFormView(LoginRequiredMixin, CreateView):
         return context
 
 class PlaceOrderView(DetailView):
+    # Gets shipping estimate, creates order object, sends customer email with order details
     model = CustomerAddress
     template_name = "place_order.html"
 
@@ -408,9 +415,6 @@ class PlaceOrderView(DetailView):
 
         return redirect("order_success")
 
+
 class OrderSuccessView(TemplateView):
     template_name = "order_success.html"
-
-
-class ApiInfoView(TemplateView):
-    template_name = "api_info.html"
