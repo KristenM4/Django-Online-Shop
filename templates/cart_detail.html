@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "_base.html" %}
 {% load cart_tag %}
 
 {% block title %}Your Cart{% endblock title %}
@@ -47,7 +47,7 @@
                                 <i class="fas fa-plus"></i>
                             </button>
                         </div>
-                        
+
                         <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
                             <h5 class="mb-0">${{ value.price|multiply:value.quantity|floatformat:2 }}</h5>
                         </div>
@@ -65,7 +65,7 @@
                         <button class="btn btn-dark btn-lg ms-5" type="button">Checkout</button>
                     </a>
                 </div>
-                
+
             {% endif %}
         </div>
     </div>
