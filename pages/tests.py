@@ -69,7 +69,7 @@ class PagesTests(TestCase):
         response = self.client.get(reverse("category", args=[str(self.category)]))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Categories")
-        self.assertTemplateUsed(response, "cat.html")
+        self.assertTemplateUsed(response, "category.html")
 
     def test_apipage(self):
         response = self.client.get(reverse("api-info"))

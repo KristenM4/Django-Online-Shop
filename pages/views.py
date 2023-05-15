@@ -35,11 +35,11 @@ class ApiInfoView(TemplateView):
 
 
 class CategoryPageView(TemplateView):
-    template_name = "cat.html"
+    template_name = "category.html"
 
     def get(self, request, category):
         cat_items = Product.objects.filter(category__name=category.title())
-        return render(request, "cat.html", {"category": cat_items})
+        return render(request, "category.html", {"category": cat_items})
 
 
 # Views for handling product detail page, including product reviews
