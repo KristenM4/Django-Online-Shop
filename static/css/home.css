@@ -1,7 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,900;1,300&family=Roboto&family=Source+Sans+Pro&family=Ubuntu&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,900;1,300&family=Permanent+Marker&family=Roboto&family=Source+Sans+Pro&family=Ubuntu&display=swap');
 body, html {
     font-family: 'Source Sans Pro', sans-serif;
     background-color: #eee;
+}
+#logo-seawolf {
+    font-family: 'Permanent Marker', cursive;
 }
 p, a {
     font-size: 1.1rem;
