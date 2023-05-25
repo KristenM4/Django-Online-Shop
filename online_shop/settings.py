@@ -22,6 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 from os import getenv
 from decouple import config
+import socket
 SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'cart',
     'storages',
+    'debug_toolbar',
     # local
     'pages.apps.PagesConfig',
     'accounts.apps.AccountsConfig',
@@ -62,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'online_shop.urls'
@@ -194,3 +197,5 @@ REST_FRAMEWORK = {
     ],
 
 }
+
+INTERNAL_IPS = "127.0.0.1"
